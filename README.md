@@ -41,7 +41,7 @@ run the following command to download and install the theme
 curl -sSL https://raw.githubusercontent.com/ars2062/serenity-zsh-theme/master/serenity.zsh-theme -o ~/.oh-my-zsh/custom/themes/serenity.zsh-theme
 ```
 
-### 3. Enable the Theme
+### 3. Enable the theme
 
 Edit `~/.zshrc`:
 
@@ -54,6 +54,25 @@ Reload your shell:
 ```bash
 source ~/.zshrc
 ```
+
+---
+
+## 🎨 Customisation
+
+The theme ships with sensible palettes for normal and root users, but you can override any colour:
+
+```zsh
+# examples – place BEFORE sourcing the theme
+typeset -gA MY_PROMPT_COLORS=(
+  USER '%F{brightcyan}'
+  GIT  '%F{yellow}'
+  BORDER '%F{magenta}'
+)
+```
+
+Keys you can redefine: `USER HOST IP TIME GIT PATH BORDER PROMPT EXIT`.
+
+---
 
 ## ✅ Works well on:
 
