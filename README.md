@@ -6,46 +6,43 @@ It displays essential context info in soft-colored boxes above the command line,
 
 ## ✨ Features
 
-- Top-aligned info display
-- Clean, boxy Unicode lines
-- Only shows data that exists
-- Includes:
-  - Username
-  - Hostname
-  - IP with interface (default route)
-  - Time
-  - Last command's exit code (only if non-zero)
-  - Git branch
+| Area                   | Details                                                                                                      |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Context line**       | • Username • Hostname • IP + interface (default route) • Clock • *Exit-code* (only if non-zero) • Git branch |
+| **Root “danger” mode** | Red/yellow palette + 💀 prefix when `EUID==0`                                                                |
+| **Auto-updater**       | Checks GitHub once/day for a newer *semver*; asks before replacing itself                                    |
+| **Palette overrides**  | One associative array lets you recolour any part of the prompt                                               |
+| **Zero external deps** | Everything is pure Z-shell (`curl` only for the updater)                                                     |
 
 ## 📸 Preview
 
 ```zsh
-┌─[username]@[hostname][127.0.0.1@eth0][13:01:15][git:main]
-├─ ~
-└─ $ 
+┌─[arshia]@[pop-os][192.168.1.243@wlo1][22:17:18][git:main]
+├─ ~/projects/serenity-zsh-theme
+└─ $
+```
+Root shell:
+```zsh
+┌─[💀 root]@[pop-os][192.168.1.243@wlo1][22:17:32][git:main]
+├─ /root
+└─ $
 ```
 ## ⚙️ Installation
-
-### 1. Install Oh My Zsh
-
-If you haven't already:
-
+### 1 · Install Oh My Zsh (if you don’t have it)
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-
-### 2. Install `serenity`
-
-run the following command to download and install the theme
+### 2 · Fetch the theme **and** its version file
 ```bash
-curl -sSL https://raw.githubusercontent.com/ars2062/serenity-zsh-theme/master/serenity.zsh-theme -o ~/.oh-my-zsh/custom/themes/serenity.zsh-theme
+base=https://raw.githubusercontent.com/ars2062/serenity-zsh-theme/master
+dest=$HOME/.oh-my-zsh/custom/themes
+curl -fsSL $base/serenity.zsh-theme -o $dest/serenity.zsh-theme
+curl -fsSL $base/VERSION -o $dest/serenity.version
 ```
-
-### 3. Enable the theme
-
-Edit `~/.zshrc`:
-
+*(Repeat with `sudo` for `/root` if you want root to use the theme as well.)*
+### 3 · Activate
 ```zsh
+# ~/.zshrc
 ZSH_THEME="serenity"
 ```
 
@@ -55,10 +52,21 @@ Reload your shell:
 source ~/.zshrc
 ```
 
+
+---
+## 🔄 Automatic updates
+`serenity` reads its version from `serenity.version`, then **once per day** it fetches `VERSION` from GitHub:
+```
+serenity: New version 1.1.3 is available (current 1.0.2). Update now? (y/N)
+```
+*Answer **y** to pull the new theme and version file, or **n** to skip.*
+Disable the check any time:
+```zsh
+export SERENITY_NO_UPDATE=1 # place in ~/.zshrc
+```
 ---
 
-## 🎨 Customisation
-
+## 🎨 Customization
 The theme ships with sensible palettes for normal and root users, but you can override any colour:
 
 ```zsh
