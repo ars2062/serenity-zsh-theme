@@ -66,9 +66,9 @@ build_prompt() {
   info+="$(get_git_info ${P[GIT]})"
 
   local path="${P[BORDER]}├─%f ${P[PATH]}%~%f"
-  local prompt="${P[BORDER]}└─%f ${P[PROMPT]}\\$%f "
+  local prompt="${P[BORDER]}└─%f ${P[PROMPT]}$%f "
 
-  print -P "$info\n$path\n$prompt"
+  print -r -- "$info"$'\n'"$path"$'\n'"$prompt"
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -119,10 +119,12 @@ _serenity_update_once
 # ─── Hook it up ───────────────────────────────────────────────────────────
 serenity_precmd() {
   LASTEXITCODE=$?
-  PROMPT=$(build_prompt)
+  PROMPT='$(build_prompt)'
 }
 add-zsh-hook precmd serenity_precmd
-
+export LANG=en_US.UTF-8
+export LC_CTYPE=$LANG
+setopt PROMPT_CR PROMPT_SP
 ###############################################################################
 # Customisation:
 #   typeset -gA MY_PROMPT_COLORS=( USER '%F{brightcyan}' GIT '%F{yellow}' )
